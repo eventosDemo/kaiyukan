@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="outer">
+        <div class="youtube">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/Kg69DMNWtyo?autoplay=1&mute=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+</body>
+</html>
+
+<style>
+.youtube {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+.youtube iframe {
+  width: 100%;
+  height: 100%;
+}
+.outer {
+  width: calc(100%);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Essential CSS - Makes the effect work */
+
+.outer {
+  background: -moz-linear-gradient(top right, #94ffe8, #3498db, #08009c); 
+  background: -webkit-linear-gradient(top right, #94ffe8, #3498db, #08009c); 
+  background: linear-gradient(to bottom left, #94ffe8, #3498db, #08009c);
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 100%;
+  border: 1px solid #fff;
+  bottom: 1px;
+}
+</style>
+
+<script type="text/javascript">
+$(function(){
+    jQuery(document).ready(function($){
+  var bArray = [];
+  //泡のサイズの配列
+  var sArray = [4,6,8,10];
+
+  //泡が出る幅の範囲計算
+  for (var i = 0; i < $('body').width(); i++) {
+    bArray.push(i);
+  }
+
+  //配列からランダムに値を出す関数
+  function randomValue(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  setInterval(function(){
+    //泡のサイズをランダムに選定
+    var size = randomValue(sArray);
+
+    //body内のランダムな場所に泡を配置
+    $('.outer').append('<div class="bubble" style="left: ' + randomValue(bArray) + 'px; width: ' + size + 'px; height:' + size + 'px;"></div>');
+
+    //5秒かけて下から上に泡が上るようにし、不透明度を下げる。上まで上った泡は取り除く
+    $('.bubble').animate({
+      'bottom': '100%',
+      'opacity' : '-=0.7'
+    }, 5000, function(){
+      $(this).remove()
+    });
+    //0.35秒ごとに泡を発生させる
+  }, 150);
+
+});
+});
+</script>
